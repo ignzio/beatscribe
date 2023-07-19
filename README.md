@@ -81,7 +81,7 @@ npm run dev
 - Node.js
 
 ## License
-This project is licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives (CC BY-NC-ND) License. See [LICENSE](./LICENSE) for more information.
+This project is licensed under the BSD 3-Clause License License. See [LICENSE](./LICENSE) for more information.
 
 #
 Thank you for choosing BeatScribe! We hope you enjoy discovering and creating your personalized music playlists. If you encounter any issues or have any suggestions, feel free to raise an issue on our GitHub repository. Happy listening! 🎵
