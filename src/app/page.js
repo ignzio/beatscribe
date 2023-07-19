@@ -34,6 +34,8 @@ export default function Home() {
     <>
       <div className={styles.container}>
         <div className={styles.main}>
+          <h1 className={styles.title} />
+          <div className={styles.swiperContainer}>
         <Swiper
         effect={'cards'}
         height={600}
@@ -56,6 +58,7 @@ export default function Home() {
     </SwiperSlide>
   ))}
             </Swiper>
+            </div>
           </div>
       </ div>
     </>
