@@ -28,7 +28,7 @@ export default function Home() {
 
   useEffect(() => {
     handleClick().then(res => setData(res)).then(() => console.log(data));
-    
+
   }, [])
   return (
     <>
@@ -36,30 +36,30 @@ export default function Home() {
         <div className={styles.main}>
           <h1 className={styles.title} />
           <div className={styles.swiperContainer}>
-        <Swiper
-        effect={'cards'}
-        height={600}
-        grabCursor={true}
-        modules={[EffectCards]}
-        className={styles.swiper}
-        cardsEffect={{
-          slideShadows: false,
-          perSlideOffset: 50,
-        }
-        }
-      >
-        {data && data.albums.items.map((item, index) => (
-    <SwiperSlide className={styles.swiperSlide} key={index}>
-      <Card
-        author={item.artists[0].name}
-        title={item.name}
-        imagen={item.images[0].url}
-      />
-    </SwiperSlide>
-  ))}
+            <Swiper
+              effect={'cards'}
+              height={600}
+              grabCursor={true}
+              modules={[EffectCards]}
+              className={styles.swiper}
+              cardsEffect={{
+                slideShadows: false,
+                perSlideOffset: 50,
+              }
+              }
+            >
+              {data && data.albums.items.map((item, index) => (
+                <SwiperSlide className={styles.swiperSlide} key={index}>
+                  <Card
+                    author={item.artists[0].name}
+                    title={item.name}
+                    imagen={item.images[0].url}
+                  />
+                </SwiperSlide>
+              ))}
             </Swiper>
-            </div>
           </div>
+        </div>
       </ div>
     </>
   )
