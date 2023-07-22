@@ -55,7 +55,7 @@ function Home() {
 
     const fetchNewReleases = async () => {
         try {
-            const res = await fetch('http://140.238.122.84/new-releases');
+            const res = await fetch('https://data.ignaziogandolfo.dev/new-releases');
             if (!res.ok) {
                 throw new Error(`Failed to fetch: ${res.status}`);
             }
