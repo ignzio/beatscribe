@@ -1,10 +1,6 @@
 import { useState } from "react";
-import Slider from "@mui/material/Slider";
 import { styled } from "@mui/system";
-import { Paper, Typography, IconButton } from "@mui/material";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
+import { Paper, Typography } from "@mui/material";
 import PropTypes from 'prop-types';
 
 const StyledPaper = styled(Paper)({
@@ -55,22 +51,6 @@ function Card({ imagen, title, author }) {
       <Typography variant="body1" component="h3">
         {author}
       </Typography>
-      <Slider
-        value={songProgress}
-        onChange={handleSongProgressChange}
-      />
-
-      <Buttons>
-        <IconButton aria-label="previous">
-          <SkipPreviousIcon />
-        </IconButton>
-        <IconButton aria-label="play">
-          <PlayArrowIcon />
-        </IconButton>
-        <IconButton aria-label="next">
-          <SkipNextIcon />
-        </IconButton>
-      </Buttons>
     </StyledPaper>
   );
 }
