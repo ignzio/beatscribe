@@ -1,6 +1,6 @@
-'use client'
 import localFont from "next/font/local";
 import "./globals.css";
+import StoreProvider from "./StoreProvider";
 import Navigation from "./components/Navigation";
 
 const geistSans = localFont({
@@ -26,8 +26,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navigation />
-        {children}
+        <StoreProvider>
+          <Navigation />
+            {children}
+        </StoreProvider>
       </body>
     </html>
   );

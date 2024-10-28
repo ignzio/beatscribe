@@ -3,6 +3,7 @@ import React from 'react'
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch,faUser,faBars } from '@fortawesome/free-solid-svg-icons'
+import Link from 'next/link'
 
 
 const search = <FontAwesomeIcon icon={faSearch} />
@@ -28,7 +29,7 @@ function Navigation() {
                             </button>
                         </div>
                         <div className="flex-shrink-0 flex items-center">
-                            <span className="text-xl font-bold text-gray-800 dark:text-white">BeatScribe</span>
+                            <Link href="/" className="text-xl font-bold text-gray-800 dark:text-white">BeatScribe</Link>
                         </div>
                         <div className="hidden md:ml-6 md:flex md:space-x-8 self-center">
                             <DesktopNav />
@@ -36,15 +37,14 @@ function Navigation() {
                     </div>
                     <div className="flex items-center">
                         <div className="flex-shrink-0">
-                            <a href="#" className="text-lg font-medium text-gray-500 hover:text-gray-700 dark:text-gray-200 dark:hover:text-white"> {search} </a> {/* change to some other tag */}
+                            <Link href="#" className="text-lg font-medium text-gray-500 hover:text-gray-700 dark:text-gray-200 dark:hover:text-white"> {search} </Link> {/* change to some other tag */}
                         </div>
                         <div className="ml-4 flex-shrink-0">
-                            <a
-                                href="#"
+                            <Link href="/auth/login"
                                 className="inline-flex items-center px-4 py-2 border border-transparent text-lg font-medium rounded-md shadow-sm text-white bg-gray-800 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-800"
                             >
                                 {person}
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
