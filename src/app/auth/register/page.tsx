@@ -12,14 +12,14 @@ export default function Register() {
 
   return (
     <div className="flex min-h-[calc(100vh-65px)] items-center justify-center bg-gray-50 dark:bg-gray-800">
-      <div className="w-full max-w-lg p-6 py-12 mx-auto space-y-8">
+      <div className="w-full max-w-lg p-0 md:p-6 py-0 md:py-12 mx-auto space-y-8">
         <div className="text-center">
-          <h2 className="text-4xl font-bold">Create your account</h2>
+          <h2 className="text-2xl font-bold md:text-6xl">Create your account</h2>
           <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
             to enjoy all of our cool <span className="text-blue-400">features</span> ✌️
           </p>
         </div>
-        <div className="p-8 bg-white rounded-lg shadow-lg dark:bg-gray-700">
+        <div className="p-3 md:p-8 md:bg-white rounded-lg shadow-lg md:dark:bg-gray-700">
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300">

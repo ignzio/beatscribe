@@ -12,12 +12,14 @@
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@reduxjs/toolkit": "^1.7.1",
     "beatscribe": "file:",
     "next": "15.0.0",
-    "@reduxjs/toolkit": "^1.7.1",
-    "react-redux": "^8.1.0",
     "react": "19.0.0-rc-65a56d0e-20241020",
-    "react-dom": "19.0.0-rc-65a56d0e-20241020"
+    "react-dom": "19.0.0-rc-65a56d0e-20241020",
+    "react-multi-carousel": "^2.8.5",
+    "react-redux": "^8.1.0",
+    "react-responsive-carousel": "^3.2.23"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -2,24 +2,58 @@
 
 import React from 'react'
 import Link from 'next/link'
+import { useDispatch } from 'react-redux'
+import { redirect } from 'next/navigation'
 
 export default function Login() {
+  //redux store
+  const dispatch = useDispatch()
+
+  const login = () => {
+    //login according to the state of the authslice example in the lib folder
+    //add some user data to the payload
+    dispatch({
+      type: 'auth/login',
+      payload: {
+        username: 'John Doe',
+        email: 'jhondoe@gmail.com',
+        id: 1,
+      },
+    })
+
+    
+  }
+
+
   //form submission
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log('form submitted')
+    login()
+    //redirect to home page using nextjs route
+
+    
+    redirect('/')
+
   }
 
   return (
     <div className="flex min-h-[calc(100vh-65px)] items-center justify-center bg-gray-50 dark:bg-gray-800">
-      <div className="w-full max-w-lg p-6 py-12 mx-auto space-y-8">
+      <div className="w-full max-w-lg p-0
+       md:p-6
+        py-0
+         md:py-12
+        mx-auto space-y-8
+       ">
         <div className="text-center">
-          <h2 className="text-4xl font-bold">Sign in to your account</h2>
+          <h2 className="text-2xl font-bold md:text-6xl">Sign in to your account</h2>
           <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
             to enjoy all of our cool <span className="text-blue-400">features</span> ✌️
           </p>
         </div>
-        <div className="p-8 bg-white rounded-lg shadow-lg dark:bg-gray-700">
+        <div className=" p-3
+        md:p-8
+         md:bg-white rounded-lg shadow-lg md:dark:bg-gray-700">
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -80,3 +114,35 @@ export default function Login() {
     </div>
   )
 }
+
+
+// // src/lib/authSlice.ts
+// import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+// interface AuthState {
+//   isAuthenticated: boolean;
+//   user: string | null;
+// }
+
+// const initialState: AuthState = {
+//   isAuthenticated: false,
+//   user: null,
+// };
+
+// const authSlice = createSlice({
+//   name: 'auth',
+//   initialState,
+//   reducers: {
+//     login: (state, action: PayloadAction<string>) => {
+//       state.isAuthenticated = true;
+//       state.user = action.payload;
+//     },
+//     logout: (state) => {
+//       state.isAuthenticated = false;
+//       state.user = null;
+//     },
+//   },
+// });
+
+// export const { login, logout } = authSlice.actions;
+// export default authSlice.reducer;
