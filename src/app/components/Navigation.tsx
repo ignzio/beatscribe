@@ -1,17 +1,31 @@
 'use client'
-import React from 'react'
-import { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch,faUser,faBars } from '@fortawesome/free-solid-svg-icons'
-import Link from 'next/link'
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch, faUser, faBars, faCog } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/lib/store';
+import ProfileDrawer from './navigation/ProfileDrawer';
+import { toggleProfileSettings } from '@/lib/features/navigation/navigationSlice';
+import { usePathname } from 'next/navigation';
 
-
-const search = <FontAwesomeIcon icon={faSearch} />
-const person = <FontAwesomeIcon icon={faUser} />
-const hamburger = <FontAwesomeIcon icon={faBars} />
+const search = <FontAwesomeIcon icon={faSearch} />;
+const person = <FontAwesomeIcon icon={faUser} />;
+const hamburger = <FontAwesomeIcon icon={faBars} />;
+const cog = <FontAwesomeIcon icon={faCog} />;
 
 function Navigation() {
-  const [isOpen, setIsOpen] = useState(false)
+    const dispatch = useDispatch();
+    const router = usePathname();
+    const [isOpen, setIsOpen] = useState(false);
+    const logindata = useSelector((state: RootState) => state.auth);
+
+    const handleToggleProfileSettings = () => {
+        // Dispatch action to show/hide profile settings
+        dispatch(toggleProfileSettings());
+    };
+
+    const isProfilePage = router === '/auth/profile';
 
     return (
         <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-900">
@@ -21,7 +35,7 @@ function Navigation() {
                         <div className="-ml-2 mr-2 flex items-center md:hidden">
                             <button
                                 onClick={() => setIsOpen(!isOpen)}
-                                className="inline-flex items-center justify-center m-2 text-2xl  rounded-md text-gray-500 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-900"
+                                className="inline-flex items-center justify-center m-2 text-2xl rounded-md text-gray-500 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-900"
                                 aria-expanded={isOpen}
                             >
                                 <span className="sr-only">Open main menu</span>
@@ -40,11 +54,28 @@ function Navigation() {
                             <Link href="#" className="text-lg font-medium text-gray-500 hover:text-gray-700 dark:text-gray-200 dark:hover:text-white"> {search} </Link> {/* change to some other tag */}
                         </div>
                         <div className="ml-4 flex-shrink-0">
-                            <Link href="/auth/login"
-                                className="inline-flex items-center px-4 py-2 border border-transparent text-lg font-medium rounded-md shadow-sm text-white bg-gray-800 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-800"
-                            >
-                                {person}
-                            </Link>
+                            {logindata.user ? (
+                                isProfilePage ? (
+                                    <button
+                                        onClick={handleToggleProfileSettings}
+                                        className="inline-flex items-center px-4 py-2 border border-transparent text-lg font-medium rounded-md shadow-sm text-white bg-gray-800 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-800"
+                                    >
+                                        {cog}
+                                    </button>
+                                ) : (
+                                    <Link href="/auth/profile"
+                                        className="inline-flex items-center px-4 py-2 border border-transparent text-lg font-medium rounded-md shadow-sm text-white bg-gray-800 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-800"
+                                    >
+                                        {person}
+                                    </Link>
+                                )
+                            ) : (
+                                <Link href="/auth/login"
+                                    className="inline-flex items-center px-4 py-2 border border-transparent text-lg font-medium rounded-md shadow-sm text-white bg-gray-800 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-800"
+                                >
+                                    {person}
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -53,11 +84,10 @@ function Navigation() {
             <div className={`${isOpen ? 'block' : 'hidden'} md:hidden`}>
                 <MobileNav />
             </div>
+            <ProfileDrawer />
         </div>
-    )
+    );
 }
-
-
 
 const DesktopNav = () => {
     return (
@@ -88,8 +118,8 @@ const DesktopNav = () => {
                 </div>
             ))}
         </nav>
-    )
-}
+    );
+};
 
 const MobileNav = () => {
     return (
@@ -104,8 +134,8 @@ const MobileNav = () => {
                 ))}
             </div>
         </nav>
-    )
-}
+    );
+};
 
 const NAV_ITEMS = [
     {
@@ -153,8 +183,6 @@ const NAV_ITEMS = [
         ],
         href: '#',
     }
+];
 
-]
-
-
-export default Navigation
+export default Navigation;

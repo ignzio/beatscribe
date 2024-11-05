@@ -1,5 +1,6 @@
 // src/lib/authSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAppSlice } from "@/lib/createAppSlice";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -11,20 +12,29 @@ const initialState: AuthState = {
   user: null,
 };
 
-const authSlice = createSlice({
-  name: 'auth',
+export const authSlice = createAppSlice({
+  name: "auth",
   initialState,
-  reducers: {
-    login: (state, action: PayloadAction<string>) => {
+  reducers: (create) => ({
+    login: create.reducer((state, action: PayloadAction<string>) => {
       state.isAuthenticated = true;
       state.user = action.payload;
-    },
-    logout: (state) => {
+    }),
+    logout: create.reducer((state) => {
       state.isAuthenticated = false;
       state.user = null;
-    },
+    }),
+  }),
+  selectors: {
+    selectIsAuthenticated: (state) => state.isAuthenticated,
+    selectUser: (state) => state.user,
   },
 });
 
+// Action creators are generated for each case reducer function.
 export const { login, logout } = authSlice.actions;
+
+// Selectors returned by `slice.selectors` take the root state as their first argument.
+export const { selectIsAuthenticated, selectUser } = authSlice.selectors;
+
 export default authSlice.reducer;

@@ -4,32 +4,25 @@ import React from 'react'
 import Link from 'next/link'
 import { useDispatch } from 'react-redux'
 import { redirect } from 'next/navigation'
-
+import { login } from '@/lib/features/auth/authSlice'
 export default function Login() {
   //redux store
   const dispatch = useDispatch()
 
-  const login = () => {
-    //login according to the state of the authslice example in the lib folder
-    //add some user data to the payload
-    dispatch({
-      type: 'auth/login',
-      payload: {
-        username: 'John Doe',
-        email: 'jhondoe@gmail.com',
-        id: 1,
-      },
-    })
+  const handleLogin = () => {
+    // Dispatch the login action with user data as payload
+    dispatch(login('John Doe'));
+  };
 
-    
-  }
+
 
 
   //form submission
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log('form submitted')
-    login()
+    //handle login
+    handleLogin()
     //redirect to home page using nextjs route
 
     
