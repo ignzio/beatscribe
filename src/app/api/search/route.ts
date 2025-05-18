@@ -38,6 +38,7 @@ export async function GET(req: NextRequest) {
 
   let accessToken = await getSpotifyToken();
   if (!accessToken) {
+    console.error("Failed to get Spotify access token");
     return NextResponse.json({ error: "Failed to get Spotify access token" }, { status: 500 });
   }
 
@@ -61,8 +62,10 @@ export async function GET(req: NextRequest) {
 
   // If unauthorized, try to get a new token and retry once
   if (res.status === 401) {
+    console.warn("Spotify API 401 Unauthorized, refreshing token and retrying...");
     accessToken = await getSpotifyToken();
     if (!accessToken) {
+      console.error("Failed to refresh Spotify access token");
       return NextResponse.json({ error: "Failed to refresh Spotify access token" }, { status: 500 });
     }
     res = await fetch(
@@ -76,7 +79,16 @@ export async function GET(req: NextRequest) {
   }
 
   if (!res.ok) {
-    return NextResponse.json({ error: "Spotify API error" }, { status: res.status });
+    const errorText = await res.text();
+    console.error("Spotify API error", res.status, errorText, {
+      url: `https://api.spotify.com/v1/search?${params.toString()}`,
+      params: Object.fromEntries(params.entries()),
+      token: accessToken ? "present" : "missing",
+    });
+    return NextResponse.json(
+      { error: "Spotify API error", details: errorText, status: res.status },
+      { status: res.status }
+    );
   }
 
   const data = await res.json();
