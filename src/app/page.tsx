@@ -4,6 +4,7 @@ import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
+import { Suspense } from "react";
 
 type SearchResult = {
   id: string;
@@ -586,11 +587,22 @@ function SearchForm({
 
 // --- End Components ---
 
-export default function Home() {
+function PageWithSuspense() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [search, setSearch] = useState(() => searchParams.get("q") || "");
+  // Only show the "q" value in the search bar if not using advanced fields
+  const [search, setSearch] = useState(() => {
+    const q = searchParams.get("q") || "";
+    const artist = searchParams.get("artist") || "";
+    const album = searchParams.get("album") || "";
+    const track = searchParams.get("track") || "";
+    const year = searchParams.get("year") || "";
+    // If any advanced field is set, show empty in search bar
+    if (artist || album || track || year) return "";
+    return q;
+  });
+
   const [searchType, setSearchType] = useState(() => searchParams.get("type") || "track");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
@@ -704,6 +716,12 @@ export default function Home() {
     }
     setSearchType(updated.length > 0 ? updated.join(",") : "track");
     setShowQueryBuilder(updated.length > 1);
+
+    // Clear advanced fields if their type is being disabled
+    if (!updated.includes("artist")) setArtist("");
+    if (!updated.includes("album")) setAlbum("");
+    if (!updated.includes("track")) setTrack("");
+    if (!updated.includes("year")) setYear("");
   };
 
   const handleSearch = (e: FormEvent) => {
@@ -713,14 +731,14 @@ export default function Home() {
     const params = new URLSearchParams();
     params.set("q", query);
     params.set("type", searchType);
-    params.set("limit", limit);
-    params.set("offset", offset);
-    // Save advanced fields in URL for correct state restoration
+    if (limit) params.set("limit", limit);
+    if (offset) params.set("offset", offset);
+    // Only add advanced fields if they are non-empty
     if (showAnyQueryBuilder) {
-      params.set("artist", artist);
-      params.set("album", album);
-      params.set("track", track);
-      params.set("year", year);
+      if (artist) params.set("artist", artist);
+      if (album) params.set("album", album);
+      if (track) params.set("track", track);
+      if (year) params.set("year", year);
     }
     router.replace(`?${params.toString()}`);
   };
@@ -939,5 +957,14 @@ export default function Home() {
         saving={savingPlaylist}
       />
     </div>
+  );
+}
+
+// Wrap the page in Suspense for useSearchParams
+export default function Page() {
+  return (
+    <Suspense fallback={<div className="text-center py-12">Loading...</div>}>
+      <PageWithSuspense />
+    </Suspense>
   );
 }
