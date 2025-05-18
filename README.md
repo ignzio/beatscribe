@@ -18,7 +18,7 @@ Beatscribe is a modern, neo-brutalist web app for searching, curating, and savin
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/beatscribe.git
+   git clone https://github.com/ignzio/beatscribe.git
    cd beatscribe
    ```
 
