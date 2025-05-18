@@ -3,6 +3,7 @@ import { useState, FormEvent, useRef, useEffect } from "react";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
+import Image from "next/image";
 
 type SearchResult = {
   id: string;
@@ -177,10 +178,13 @@ function TrackCard({
     return (
       <div className="flex items-center gap-3 border-2 border-black rounded-lg bg-white px-4 py-3 mb-4 w-full max-w-2xl">
         {imageUrl && (
-          <img
+          <Image
             src={imageUrl}
             alt={track.name}
+            width={48}
+            height={48}
             className="w-12 h-12 object-cover rounded border-2 border-black"
+            unoptimized
           />
         )}
         <div className="flex-1 min-w-0">
@@ -219,16 +223,13 @@ function TrackCard({
       }}
     >
       {imageUrl && (
-        <img
+        <Image
           src={imageUrl}
           alt={track.name}
+          width={144}
+          height={144}
           className="w-32 h-32 sm:w-36 sm:h-36 object-cover rounded-xl border-2 border-black mb-4 group-hover:shadow-lg"
-          style={{
-            borderRadius: "10px",
-            borderWidth: "2px",
-            borderColor: "#222",
-            boxShadow: "2px 2px 0 #222",
-          }}
+          unoptimized
         />
       )}
       <h2 className="text-lg sm:text-xl font-semibold text-black mb-2 text-center break-words max-w-full line-clamp-2" style={{ textShadow: "1px 1px 0 #222" }}>
