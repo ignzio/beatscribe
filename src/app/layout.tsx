@@ -4,7 +4,6 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
-import { PlaylistProvider } from "@/components/PlaylistContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +31,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white w-screen h-screen min-h-screen min-w-screen max-h-screen max-w-screen overflow-hidden`}
         style={{ background: "#18181b" }}
       >
-        <PlaylistProvider>
           <Header />
           <div className="flex flex-1 w-full max-w-full h-[calc(100vh-80px-56px)] overflow-hidden">
             {/* Sidebar: hidden on mobile, visible on md+ */}
@@ -45,7 +43,6 @@ export default function RootLayout({
             </main>
           </div>
           <Footer />
-        </PlaylistProvider>
       </body>
     </html>
   );
