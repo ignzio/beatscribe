@@ -32,7 +32,11 @@ export default function MySavedPlaylistsPage() {
         const userRes = await fetch("https://api.spotify.com/v1/me", {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
-        if (!userRes.ok) throw new Error("Failed to get user info");
+        if (!userRes.ok) {
+          const errorText = await userRes.text();
+          console.error("Spotify /me error:", userRes.status, errorText);
+          throw new Error("Failed to get user info: " + errorText);
+        }
         const user = await userRes.json();
         const userId = user.id;
 

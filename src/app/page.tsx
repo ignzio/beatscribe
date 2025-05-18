@@ -12,6 +12,7 @@ type SearchResult = {
   type: string;
   artists?: { name: string }[];
   album?: { name: string; images?: { url: string }[] };
+  description?: string;
 };
 
 // --- Components ---
@@ -182,10 +183,10 @@ function TrackCard({
             className="w-12 h-12 object-cover rounded border-2 border-black"
           />
         )}
-        <div className="flex-1">
-          <div className="font-semibold text-base">{track.name}</div>
+        <div className="flex-1 min-w-0">
+          <div className="font-semibold text-base truncate">{track.name}</div>
           {track.artists && (
-            <div className="text-xs text-gray-700">{track.artists.map(a => a.name).join(", ")}</div>
+            <div className="text-xs text-gray-700 truncate">{track.artists.map(a => a.name).join(", ")}</div>
           )}
         </div>
         {onAdd && (
@@ -230,16 +231,16 @@ function TrackCard({
           }}
         />
       )}
-      <h2 className="text-lg sm:text-xl font-semibold text-black mb-2 text-center" style={{ textShadow: "1px 1px 0 #222" }}>
+      <h2 className="text-lg sm:text-xl font-semibold text-black mb-2 text-center break-words max-w-full line-clamp-2" style={{ textShadow: "1px 1px 0 #222" }}>
         {track.name}
       </h2>
       {track.artists && (
-        <div className="text-xs text-gray-700 text-center mb-1 font-normal">
+        <div className="text-xs text-gray-700 text-center mb-1 font-normal break-words max-w-full line-clamp-2">
           {track.artists.map(a => a.name).join(", ")}
         </div>
       )}
       {track.album && (
-        <div className="text-xs text-gray-700 text-center mb-1 font-normal">
+        <div className="text-xs text-gray-700 text-center mb-1 font-normal break-words max-w-full line-clamp-2">
           Album: {track.album.name}
         </div>
       )}
@@ -260,10 +261,16 @@ function TrackCard({
           href={track.external_urls.spotify}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-3 text-xs text-green-700 font-mono opacity-70 group-hover:opacity-100 transition-opacity font-normal"
+          className="mt-3 text-xs text-green-700 font-mono opacity-70 group-hover:opacity-100 transition-opacity font-normal break-all"
         >
           Open in Spotify
         </a>
+      )}
+      {/* Description (if present, for playlists) */}
+      {"description" in track && track.description && (
+        <div className="text-xs text-gray-500 text-center mt-2 font-normal break-words max-w-full line-clamp-2">
+          {track.description}
+        </div>
       )}
     </div>
   );
