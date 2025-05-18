@@ -45,8 +45,12 @@ export default function UserPlaylistsPage() {
             pl.description.includes(JAMMMING_DESCRIPTION)
         );
         setPlaylists(jammmingPlaylists);
-      } catch (err: any) {
-        setError(err?.message || "Failed to load playlists");
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Failed to load playlists");
+        }
       } finally {
         setLoading(false);
       }

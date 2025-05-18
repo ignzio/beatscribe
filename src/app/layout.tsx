@@ -5,7 +5,6 @@ import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
 import { PlaylistProvider } from "@/components/PlaylistContext";
-import SpotifyLoginButton from "@/components/SpotifyLoginButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 const client_id = process.env.SPOTIFY_CLIENT_ID!;
 const redirect_uri = process.env.SPOTIFY_REDIRECT_URI!; // e.g. http://localhost:3000/api/spotify/callback
@@ -12,7 +12,7 @@ function generateRandomString(length: number) {
   return text;
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   const state = generateRandomString(16);
   const scope = [
     "playlist-modify-public",

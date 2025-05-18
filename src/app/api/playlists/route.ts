@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import {  NextResponse } from "next/server";
 
 // Helper to get a fresh Spotify token using client credentials
 async function getSpotifyToken() {
@@ -23,7 +23,7 @@ async function getSpotifyToken() {
   return data.access_token as string;
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   // Always get a fresh token for each request
   let accessToken = await getSpotifyToken();
   if (!accessToken) {
@@ -61,8 +61,15 @@ export async function GET(req: NextRequest) {
   // Each category has: id, name, icons, href, and can be referenced by Spotify URI: spotify:category:{id}
   // Example: spotify:category:party
   // Return id, name, icons, href, and spotify_uri for each category
+  type SpotifyCategory = {
+    id: string;
+    name: string;
+    icons: Array<{ url: string; height?: number; width?: number }>;
+    href: string;
+  };
+
   return NextResponse.json({
-    categories: (data.categories.items || []).map((cat: any) => ({
+    categories: (data.categories.items || []).map((cat: SpotifyCategory) => ({
       id: cat.id,
       name: cat.name,
       icons: cat.icons,

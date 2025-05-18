@@ -1,10 +1,7 @@
-"use client";
-import React, { useContext } from "react";
-import { PlaylistContext } from "./PlaylistContext";
-
+import React from "react";
+import Link from "next/link";
 
 const Sidebar = () => {
-  const { savePlaylist } = useContext(PlaylistContext);
 
   return (
     <aside
@@ -23,7 +20,7 @@ const Sidebar = () => {
       <nav className="flex-1">
         <ul className="space-y-6">
           <li>
-            <a
+            <Link
               href="/"
               className="block px-4 py-2 rounded-lg font-bold text-black border-2 border-black shadow-brutal hover:bg-green-200 transition"
               style={{
@@ -31,10 +28,10 @@ const Sidebar = () => {
               }}
             >
               Home
-            </a>
+            </Link>
           </li>
           <li>
-            <a
+            <Link
               href="/playlists"
               className="block px-4 py-2 rounded-lg font-bold text-black border-2 border-black shadow-brutal hover:bg-green-200 transition"
               style={{
@@ -42,10 +39,10 @@ const Sidebar = () => {
               }}
             >
               My Playlists
-            </a>
+            </Link>
           </li>
           <li>
-            <a
+            <Link
               href="/saved"
               className="block px-4 py-2 rounded-lg font-bold text-black border-2 border-black shadow-brutal hover:bg-green-200 transition"
               style={{
@@ -53,21 +50,11 @@ const Sidebar = () => {
               }}
             >
               Saved Playlists
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>
-      <button
-        className="mt-10 w-full bg-yellow-300 text-black font-extrabold py-3 px-4 rounded-lg border-2 border-black"
-        style={{
-          boxShadow: "4px 4px 0 #222",
-          fontSize: "1.1rem",
-          letterSpacing: "-0.5px",
-        }}
-        onClick={savePlaylist}
-      >
-        + Save Playlist
-      </button>
+     
     </aside>
   );
 };

@@ -11,7 +11,7 @@ type SearchResult = {
   external_urls?: { spotify: string };
   type: string;
   artists?: { name: string }[];
-  album?: { name: string };
+  album?: { name: string; images?: { url: string }[] };
 };
 
 // --- Components ---
@@ -45,7 +45,6 @@ function TypeSelector({
             cursor: "pointer",
           }}
           tabIndex={0}
-          aria-pressed={selectedTypes.includes(opt.value)}
         >
           <span
             className={`inline-block w-4 h-4 rounded border-2 mr-1
@@ -150,7 +149,11 @@ function TrackCard({
 }) {
   const imageUrl =
     track.images?.[0]?.url ||
-    (track.type === "track" && (track as any).album?.images?.[0]?.url);
+    (track.type === "track" && isTrackWithAlbum(track) ? track.album?.images?.[0]?.url : undefined);
+
+  function isTrackWithAlbum(track: SearchResult): track is SearchResult & { album: { images?: { url: string }[] } } {
+    return track.type === "track" && !!track.album && Array.isArray(track.album.images);
+  }
 
   if (minimal) {
     return (
@@ -416,6 +419,31 @@ function PlaylistDrawer({
   );
 }
 
+type SearchFormProps = {
+  search: string;
+  setSearch: (v: string) => void;
+  handleSearch: (e: FormEvent) => void;
+  searchInputRef: React.RefObject<HTMLInputElement | null>;
+  showAnyQueryBuilder: boolean;
+  selectedTypes: string[];
+  typeOptions: { value: string; label: string }[];
+  handleTypeToggle: (type: string) => void;
+  track: string;
+  setTrack: (v: string) => void;
+  artist: string;
+  setArtist: (v: string) => void;
+  album: string;
+  setAlbum: (v: string) => void;
+  year: string;
+  setYear: (v: string) => void;
+  showAdvanced: boolean;
+  setShowAdvanced: (v: boolean | ((prev: boolean) => boolean)) => void;
+  limit: string;
+  setLimit: (v: string) => void;
+  offset: string;
+  setOffset: (v: string) => void;
+};
+
 function SearchForm({
   search,
   setSearch,
@@ -432,7 +460,7 @@ function SearchForm({
   showAdvanced, setShowAdvanced,
   limit, setLimit,
   offset, setOffset,
-}: any) {
+}: SearchFormProps) {
   return (
     <motion.form
       className="flex flex-col gap-3 w-full max-w-2xl items-center justify-center"
@@ -578,6 +606,7 @@ export default function Home() {
     .map((t) => t.trim())
     .filter(Boolean)
     .filter((t) => typeOptions.some(opt => opt.value === t));
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showQueryBuilder, setShowQueryBuilder] = useState(selectedTypes.length > 1);
   const [artist, setArtist] = useState(() => searchParams.get("artist") || "");
   const [album, setAlbum] = useState(() => searchParams.get("album") || "");
@@ -759,8 +788,12 @@ export default function Home() {
       if (!addRes.ok) throw new Error("Failed to add tracks");
 
       alert("Playlist saved to your Spotify account!");
-    } catch (err: any) {
-      alert("Error saving playlist: " + (err?.message || "Unknown error"));
+    } catch (err: unknown) {
+      const errorMessage =
+        typeof err === "object" && err !== null && "message" in err
+          ? (err as { message?: string }).message
+          : "Unknown error";
+      alert("Error saving playlist: " + errorMessage);
       console.error("Error saving playlist:", err);
     } finally {
       setSavingPlaylist(false);

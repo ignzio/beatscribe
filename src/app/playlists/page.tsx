@@ -68,9 +68,14 @@ export default function MySavedPlaylistsPage() {
         }
 
         setPlaylists(userPlaylists);
-      } catch (err: any) {
-        setError(err?.message || "Failed to load playlists");
-        console.error("Test: Error fetching playlists", err);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message || "Failed to load playlists");
+          console.error("Test: Error fetching playlists", err);
+        } else {
+          setError("Failed to load playlists");
+          console.error("Test: Error fetching playlists", err);
+        }
       } finally {
         setLoading(false);
       }
